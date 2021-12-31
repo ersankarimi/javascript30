@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JS + CSS Clock</title>
+  <style>
+    html {
+      background: #018DED url(https://unsplash.it/1500/1000?image=881&blur=5);
+      background-size: cover;
+      font-family: 'helvetica neue';
+      text-align: center;
+      font-size: 10px;
+    }
+
+    body {
+      margin: 0;
+      font-size: 2rem;
+      display: flex;
+      flex: 1;
+      min-height: 100vh;
+      align-items: center;
+    }
+
+    .clock {
+      width: 50rem;
+      height: 50rem;
+      border: 20px solid white;
+      border-radius: 50%;
+      margin: 50px auto;
+      /* position: relative; */
+      padding: 1rem;
+      box-shadow:
+        0 0 0 4px rgba(0, 0, 0, 0.1),
+        inset 0 0 0 3px #EFEFEF,
+        inset 0 0 10px black,
+        0 0 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .clock-face {
+      border-radius: 50%;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      transform: translateY(-3px);
+      /* account for the height of the clock hands */
+    }
+
+    .hand {
+      --rotation: 0;
+      background: red;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform-origin: left;
+      transform: rotate(calc(var(--rotation) * 1deg));
+      border-bottom-right-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    .hand.hour-hand {
+      width: 38%;
+      height: 10px;
+
+    }
+
+    .hand.min-hand {
+      width: 33%;
+      height: 4px;
+    }
+
+    .hand.second-hand {
+      width: 42%;
+      height: 4px;
+      background-color: red;
+      z-index: 0;
+    }
+
+    .clock-face::after {
+      content: " ";
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      top: 48%;
+      left: 47%;
+      border-radius: 50%;
+      background-color: black;
+    }
+
+    .clock-face .number {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      font-size: 3rem;
+      text-align: center;
+    }
+
+    .clock-face .number1 {
+      transform: rotate(30deg);
+    }
+
+    .clock-face .number2 {
+      transform: rotate(60deg);
+    }
+
+    .clock-face .number3 {
+      transform: rotate(90deg);
+    }
+
+    .clock-face .number4 {
+      transform: rotate(120deg);
+    }
+
+    .clock-face .number5 {
+      transform: rotate(150deg);
+    }
+
+    .clock-face .number6 {
+      transform: rotate(180deg);
+    }
+
+    .clock-face .number7 {
+      transform: rotate(210deg);
+    }
+
+    .clock-face .number8 {
+      transform: rotate(240deg);
+    }
+
+    .clock-face .number9 {
+      transform: rotate(270deg);
+    }
+
+    .clock-face .number10 {
+      transform: rotate(300deg);
+    }
+
+    .clock-face .number11 {
+      transform: rotate(330deg);
+    }
+
+    .clock-face .number12 {
+      transform: rotate(360deg);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="clock">
+    <div class="clock-face">
+      <div class="hand hour-hand"></div>
+      <div class="hand min-hand"></div>
+      <div class="hand second-hand"></div>
+      <div class="number number1">1</div>
+      <div class="number number2">2</div>
+      <div class="number number3">3</div>
+      <div class="number number4">4</div>
+      <div class="number number5">5</div>
+      <div class="number number6">6</div>
+      <div class="number number7">7</div>
+      <div class="number number8">8</div>
+      <div class="number number9">9</div>
+      <div class="number number10">10</div>
+      <div class="number number11">11</div>
+      <div class="number number12">12</div>
+    </div>
+  </div>
+  <script>
+    const hour = document.querySelector(".hour-hand")
+    const min = document.querySelector(".min-hand")
+    const second = document.querySelector(".second-hand")
+
+    const setClock = () => {
+      const currentDate = new Date();
+
+      const secondRatio = (currentDate.getSeconds() / 60)
+      setRotation(second, secondRatio)
+
+      const minRatio = (currentDate.getMinutes() + secondRatio) / 60
+      setRotation(min, minRatio)
+
+      const hourRatio = (currentDate.getHours() + minRatio) / 12
+      setRotation(hour, hourRatio)
+    }
+
+    const setRotation = (element, ratio) => {
+      element.style.setProperty("--rotation", (ratio * 360) + -90)
+    }
+    const repeatUpdate = setInterval(setClock, 1000)
+    setClock()
+  </script>
+</body>
