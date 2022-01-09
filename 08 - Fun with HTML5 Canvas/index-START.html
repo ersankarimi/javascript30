@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>HTML5 Canvas</title>
+</head>
+
+<body>
+  <canvas id="draw" width="800" height="800"></canvas>
+
+  <script>
+    // window load all events
+    window.addEventListener("load", () => {
+      canvas.addEventListener("mousemove", drawing)
+      canvas.addEventListener("mousedown", startDrawing)
+      canvas.addEventListener("mouseup", () => isDrawing = false)
+
+      // set canvas width and height
+      window.addEventListener("resize", () => {
+        canvas.style.width = window.innerWidth
+        canvas.style.height = window.innerHeight
+      })
+    })
+
+
+    const canvas = document.querySelector("#draw")
+    canvas.style.backgroundColor = "#201F1F"
+    const ctx = canvas.getContext("2d")
+    let isDrawing = false
+    let coordinat = {
+      x: 0,
+      y: 0
+    }
+    ctx.strokeStyle = '#BADA55';
+    let hue = 0;
+
+    const startDrawing = (e) => {
+      isDrawing = true
+      getPositionMouse(e)
+    }
+
+    const getPositionMouse = (e) => {
+      coordinat.x = e.offsetX - canvas.offsetLeft
+      coordinat.y = e.offsetY - canvas.offsetTop
+    }
+
+    const drawing = (e) => {
+      if (!isDrawing) return
+
+      // // destructure object of coordinat x, y
+      let {
+        x,
+        y
+      } = coordinat
+
+
+      // start drawing
+      ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
+      ctx.lineWidth = 25;
+
+      ctx.beginPath()
+      ctx.moveTo(x, y)
+
+      getPositionMouse(e)
+
+      ctx.lineTo(x, y)
+      ctx.stroke()
+      // hue
+      hue++
+      hue = hue >= 360 ? 0 : hue
+    }
+  </script>
+
+  <style>
+    html,
+    body {
+      margin: 0;
+    }
+  </style>
+
+</body>
+
+</html>
